@@ -1,6 +1,5 @@
 package com.example.billtracking;
 
-
 public class User {
     private String username;
     private String name;
