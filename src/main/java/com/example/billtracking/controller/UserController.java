@@ -26,8 +26,8 @@ public class UserController {
 
     @PostMapping("/login")
     public String login(@ModelAttribute("user") User user) {
-
-        if (userServiceImpl.loginUser(user.getUsername(), user.getPassword()) != null)
+       User loggedIn = userServiceImpl.loginUser(user.getUsername(), user.getPassword());
+        if ( loggedIn != null)
             return "welcome";
 
         return "redirect:/";

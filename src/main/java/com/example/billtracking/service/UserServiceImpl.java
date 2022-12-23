@@ -38,7 +38,6 @@ public class UserServiceImpl implements UserServices {
             // throw new RuntimeException("User not found for id : " + username);
             return null;
 
-
         if (!user.getPassword().equals(password))
             // throw new RuntimeException("Incorrect password for : " + username);
             return null;
