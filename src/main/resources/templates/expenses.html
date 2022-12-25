@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="ISO-8859-1">
     <title>Bill Tracking</title>
@@ -8,10 +8,10 @@
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
           crossorigin="anonymous">
 </head>
-    <body>
-        <h1>WELCOME YOU'RE LOGGED IN!!!</h1>
-        <button >
-            <a th:href="@{/expenses}">Expenses</a>
-        </button>
-    </body>
+<body>
+    <h1>Your Expenses</h1>
+    <button >
+        <a th:href="@{/addexpensepage}">Add Expense</a>
+    </button>
+</body>
 </html>
