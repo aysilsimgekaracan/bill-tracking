@@ -46,25 +46,8 @@ public class UserController {
         return "welcome";
     }
 
-    @GetMapping("/expenses")
-    public String expense(Model model) {
-        User user = new User();
-        model.addAttribute("user", user);
-        return "expenses";
-    }
 
-    @GetMapping("/addexpensepage")
-    public String addExpensePage(Model model) {
-        User user = new User();
-        model.addAttribute("user", user);
-        return "addexpensepage";
-    }
 
-    @GetMapping("/addexpense")
-    public String addExpense(Model model) {
-        User user = new User();
-        model.addAttribute("user", user);
-        return "addexpense";
-    }
+
 
 }
