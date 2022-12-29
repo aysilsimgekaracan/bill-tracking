@@ -50,7 +50,6 @@ public class ExpenseController {
         Date date = calendar.getTime();
 
         User user = new User();
-        user.setId(123);
         user.setEmail("abc@abc.com");
         user.setUsername("abc");
         user.setName("abc");
