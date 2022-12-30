@@ -2,6 +2,7 @@ package com.example.billtracking.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -9,8 +10,10 @@ public class Expense {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    private String name;
     private double amount;
-    private Date date;
+    private LocalDate date;
     private String description;
     @ManyToOne
     private User user;
@@ -19,11 +22,13 @@ public class Expense {
         this.id = id;
     }
 
+    public void setName(String name) { this.name = name; }
+
     public void setAmount(double amount) {
         this.amount = amount;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -39,11 +44,13 @@ public class Expense {
         return id;
     }
 
+    public String getName() { return name;}
+
     public double getAmount() {
         return amount;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 

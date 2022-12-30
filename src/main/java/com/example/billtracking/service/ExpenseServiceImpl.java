@@ -1,5 +1,6 @@
 package com.example.billtracking.service;
 
+import com.example.billtracking.model.User;
 import com.example.billtracking.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,5 @@ public class ExpenseServiceImpl implements ExpenseServices {
     @Override public void addExpense(Expense expense) {
         expenseRepo.save(expense);
     }
-
 
 }
