@@ -13,6 +13,7 @@ import com.example.billtracking.repository.ExpenseRepository;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 
 @Controller
@@ -37,6 +38,7 @@ public class ExpenseController {
     public String selectUser(@RequestParam("user") String username, Model model) {
         if (username == null || username.isEmpty()) {
             model.addAttribute("errorMessage", "Please select a user.");
+            model.addAttribute("usersList", userRepo.findAll());
             return "expenses";
         }
 
@@ -51,21 +53,45 @@ public class ExpenseController {
         return "expenses";
     }
 
-    @GetMapping("/addexpensepage")
-    public String addExpensePage(@RequestParam String selectedUser, Model model) {
-        User user = userRepo.findByUsername(selectedUser);
-        Expense expense = new Expense();
+    @GetMapping("/expenses/{id}/delete")
+    public String deleteExpense(@PathVariable Integer id, Model model) {
+        Expense expense = expenseRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid expense id"));
 
-        model.addAttribute("user", user);
+        model.addAttribute("usersList", userRepo.findAll());
+        model.addAttribute("selectedUser", expense.getUser());
 
-        expense.setUser(user);
-        model.addAttribute("expense", expense);
+        expenseRepo.delete(expense);
+
+        model.addAttribute("expenses", expenseRepo.findByUserUsername(expense.getUser().getUsername()));
+
+        return "expenses";
+    }
+
+    @GetMapping("/addexpense")
+    public String addExpensePage(Model model) {
+
+        List<User> usersList = userRepo.findAll();
+        model.addAttribute("usersList", usersList);
+        model.addAttribute("selectedUser", null);
+        model.addAttribute("expense", new Expense());
+
         return "addexpense";
     }
 
     @PostMapping("/addexpense")
-    public String addExpense(@ModelAttribute Expense expense, Model model) {
+    public String addExpense(@ModelAttribute Expense expense, @RequestParam("user") String username, Model model) {
         // Save the new expense to the database
+
+        if (username == null || username.isEmpty()) {
+            model.addAttribute("errorMessage", "Please select a user.");
+            model.addAttribute("usersList", userRepo.findAll());
+            return "addexpense";
+        }
+
+        User selectedUser = userRepo.findByUsername(username);
+        model.addAttribute("selectedUser", selectedUser);
+        expense.setUser(selectedUser);
+
         expenseRepo.save(expense);
 
         // Redirect to the expenses page

@@ -46,12 +46,17 @@
                 <td th:text="${expense.name}"></td>
                 <td th:text="${expense.description}"></td>
                 <td th:text="${expense.amount}"></td>
+                <td>
+                    <button class="btn btn-danger">
+                        <a th:href="@{/expenses/{id}/delete(id=${expense.id})}" class="text-white">Delete</a>
+                    </button>
+                </td>
             </tr>
             </tbody>
         </table>
         <div class="text-center mt-4">
             <button class="btn btn-success">
-                <a th:href="@{/addexpensepage(selectedUser=${selectedUser.username})}" class="text-white">Add Expense</a>
+                <a th:href="@{/addexpense}" class="text-white">Add Expense</a>
             </button>
         </div>
     </div>
