@@ -11,6 +11,7 @@ import com.example.billtracking.model.User;
 import com.example.billtracking.service.UserServiceImpl;
 
 import javax.print.attribute.standard.PresentationDirection;
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -25,10 +26,13 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String login(@ModelAttribute("user") User user) {
+    public String login(@ModelAttribute("user") User user, Model model) {
        User loggedIn = userServiceImpl.loginUser(user.getUsername(), user.getPassword());
-        if ( loggedIn != null)
-            return "welcome";
+        if ( loggedIn != null) {
+            List<User> usersList = userServiceImpl.getAllUsers();
+            model.addAttribute("usersList", usersList);
+            return "expenses";
+        }
 
         return "redirect:/";
     }
@@ -43,7 +47,9 @@ public class UserController {
     @PostMapping("/signup")
     public String adduser(@ModelAttribute("user") User user, Model model) {
         userServiceImpl.signup(user);
-        return "welcome";
+        List<User> usersList = userServiceImpl.getAllUsers();
+        model.addAttribute("usersList", usersList);
+        return "expenses";
     }
 
 
