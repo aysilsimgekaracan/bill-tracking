@@ -16,4 +16,9 @@ public class ExpenseServiceImpl implements ExpenseServices {
         expenseRepo.save(expense);
     }
 
+    @Override
+    public void deleteExpense(Expense expense) {
+        expenseRepo.delete(expense);
+    }
+
 }

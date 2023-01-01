@@ -8,4 +8,6 @@ import com.example.billtracking.model.User;
 public interface ExpenseServices {
     void addExpense(Expense expense);
 
+    void deleteExpense(Expense expense);
+
 }

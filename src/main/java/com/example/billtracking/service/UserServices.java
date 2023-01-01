@@ -5,7 +5,7 @@ import java.util.List;
 import com.example.billtracking.model.User;
 
 public interface UserServices {
-    List<User> getAllUser();
+    List<User> getAllUsers();
     void signup(User user);
     User getUser(String username);
 

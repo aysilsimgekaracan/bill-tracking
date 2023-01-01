@@ -1,5 +1,6 @@
 package com.example.billtracking.controller;
 
+import com.example.billtracking.service.ExpenseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,22 +11,21 @@ import com.example.billtracking.service.UserServiceImpl;
 import com.example.billtracking.model.Expense;
 import com.example.billtracking.repository.UserRepository;
 import com.example.billtracking.repository.ExpenseRepository;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 
 @Controller
 public class ExpenseController {
     @Autowired
     private UserServiceImpl userServiceImpl;
+    @Autowired
+    private ExpenseServiceImpl expenseServiceImpl;
     @Autowired private UserRepository userRepo;
     @Autowired private ExpenseRepository expenseRepo;
 
     @GetMapping("/expenses")
     public String expense(Model model) {
-        List<User> usersList = userRepo.findAll();
+        List<User> usersList = userServiceImpl.getAllUsers();
         model.addAttribute("usersList", usersList);
 
         model.addAttribute("selectedUser", null);
@@ -38,7 +38,7 @@ public class ExpenseController {
     public String selectUser(@RequestParam("user") String username, Model model) {
         if (username == null || username.isEmpty()) {
             model.addAttribute("errorMessage", "Please select a user.");
-            model.addAttribute("usersList", userRepo.findAll());
+            model.addAttribute("usersList", userServiceImpl.getAllUsers());
             return "expenses";
         }
 
@@ -48,7 +48,7 @@ public class ExpenseController {
         List<Expense> expenses = expenseRepo.findByUserUsername(username);
         model.addAttribute("expenses", expenses);
 
-        model.addAttribute("usersList", userRepo.findAll());
+        model.addAttribute("usersList", userServiceImpl.getAllUsers());
 
         return "expenses";
     }
@@ -57,10 +57,10 @@ public class ExpenseController {
     public String deleteExpense(@PathVariable Integer id, Model model) {
         Expense expense = expenseRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid expense id"));
 
-        model.addAttribute("usersList", userRepo.findAll());
+        model.addAttribute("usersList", userServiceImpl.getAllUsers());
         model.addAttribute("selectedUser", expense.getUser());
 
-        expenseRepo.delete(expense);
+        expenseServiceImpl.deleteExpense(expense);
 
         model.addAttribute("expenses", expenseRepo.findByUserUsername(expense.getUser().getUsername()));
 
@@ -70,7 +70,7 @@ public class ExpenseController {
     @GetMapping("/addexpense")
     public String addExpensePage(Model model) {
 
-        List<User> usersList = userRepo.findAll();
+        List<User> usersList = userServiceImpl.getAllUsers();;
         model.addAttribute("usersList", usersList);
         model.addAttribute("selectedUser", null);
         model.addAttribute("expense", new Expense());
@@ -84,7 +84,7 @@ public class ExpenseController {
 
         if (username == null || username.isEmpty()) {
             model.addAttribute("errorMessage", "Please select a user.");
-            model.addAttribute("usersList", userRepo.findAll());
+            model.addAttribute("usersList", userServiceImpl.getAllUsers());
             return "addexpense";
         }
 
@@ -92,7 +92,7 @@ public class ExpenseController {
         model.addAttribute("selectedUser", selectedUser);
         expense.setUser(selectedUser);
 
-        expenseRepo.save(expense);
+        expenseServiceImpl.addExpense(expense);
 
         // Redirect to the expenses page
         return "redirect:/expenses";

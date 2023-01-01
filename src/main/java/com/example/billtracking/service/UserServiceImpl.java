@@ -12,7 +12,7 @@ public class UserServiceImpl implements UserServices {
 
     @Autowired private UserRepository userRepo;
 
-    @Override public List<User> getAllUser()
+    @Override public List<User> getAllUsers()
     {
         return userRepo.findAll();
     }
